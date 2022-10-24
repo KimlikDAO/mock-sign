@@ -1,0 +1,12 @@
+account_id = "8f0c2f2271ff857947d9a5b2c38595a0"
+compatibility_date = "2022-04-14"
+
+name = "mock-sign"
+main = "build/sign.js"
+workers_dev = false
+route = "https://mock-api.kimlikas.com/*"
+
+[env.dev]
+name = "mock-sign-dev"
+main = "sign.js"
+workers_dev = true

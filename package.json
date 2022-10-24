@@ -1,0 +1,11 @@
+{
+  "name": "mock-kimlikas",
+  "version": "0.0.0",
+  "description": "Mock imza sunucu",
+  "author": "KimlikDAO <dao@kimlikdao.org>",
+  "devDependencies": {
+    "google-closure-compiler": "^20221004.0.0",
+    "uglify-js": "^3.17.4",
+    "wrangler": "^2.1.13"
+  }
+}
