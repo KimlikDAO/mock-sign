@@ -1,5 +1,6 @@
 {
-  "name": "mock-kimlikas",
+  "private": true,
+  "name": "mock-sign",
   "version": "0.0.0",
   "description": "Mock imza sunucu",
   "author": "KimlikDAO <dao@kimlikdao.org>",

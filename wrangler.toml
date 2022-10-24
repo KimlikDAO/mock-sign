@@ -10,3 +10,6 @@ route = "https://mock-api.kimlikas.com/*"
 name = "mock-sign-dev"
 main = "sign.js"
 workers_dev = true
+
+[build]
+command = "make build/sign.js"
