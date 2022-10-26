@@ -87,7 +87,7 @@ export default {
         "kütükBilgileri": signFor(
           /** @type {KütükBilgileri} */(data["Kutuk-Bilgileri"]), commit, signerKey),
         "adresBilgileri": signFor(
-          /** @type {TürkiyeAdresi} */(data["AdresBilgileri"]), commit, signerKey)
+          /** @type {TürkiyeAdresi} */(data["Adres-Bilgileri"]), commit, signerKey)
       }), {
         headers: {
           'content-type': 'application/json;charset=utf-8',
