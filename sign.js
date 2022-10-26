@@ -7,12 +7,43 @@ const CLIENT_SECRET = 'B97B789F-9D0F-48AF-AD09-0721979D0E9F';
  * @param {string} message
  * @param {number} code
  */
-function err(message, code) {
+const err = (message, code) => {
   return new Response('{hata:"' + message + '"}', {
     status: code,
     headers: { 'content-type': 'application/json' }
   })
 }
+
+/**
+ * @param {nvi.TemelBilgileri} kişi
+ * @return {PersonInfo}
+ */
+const toPersonInfo = (kişi) => /** @type {PersonInfo} */({
+  first: kişi.ad,
+  last: kişi.soyad,
+  localIdNumber: "TR" + kişi.TCKN,
+  cityOfBirth: kişi.dyeri,
+  dateOfBirth: kişi.dt,
+  gender: kişi.cinsiyet,
+  humanID: null,
+})
+
+/**
+ * @param {nvi.IletisimBilgileri} iletişim
+ * @return {ContactInfo}
+ */
+const toContactInfo = (iletişim) => /** @type {ContactInfo} */({
+  email: iletişim.email,
+  phone: iletişim.telefon,
+})
+
+/**
+ * @param {InfoSection} data
+ * @param {string} commit base64 encded cryptographic EVM address commitment.
+ * @param {string} signerKey
+ * @return {InfoSection}
+ */
+const signFor = (data, commit, signerKey) => data
 
 export default {
   /**
@@ -27,11 +58,10 @@ export default {
       return err('GET gerekli', 405);
     }
 
-    // (0) Imza isteğini oku
+    const signerKey = "";
     const oauth_code = url.searchParams.get('oauth_code') || "";
-    const taahhüt = url.searchParams.get('taahhüt') || url.searchParams.get('taahhut');
+    const commit = url.searchParams.get('taahhüt') || url.searchParams.get('taahhut') || "";
 
-    // (1) Access tokenini al
     /** @const {OAuthAccessTokenRequest} */
     const tokenRequest = {
       grant_type: "authorization_code",
@@ -44,12 +74,21 @@ export default {
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams(/** @type {!Object<string, string>} */(tokenRequest)).toString()
     }).then((res) => res.json())
-      .then((body) => fetch(BILGI_SERVER_URL, {
+      .then((/** @type {OAuthAccessToken} */ body) => fetch(BILGI_SERVER_URL, {
         method: 'GET',
         headers: { 'Authorization': 'Bearer ' + body.access_token }
       }))
       .then((res) => res.json())
-      .then((/** @type {AçıkTCKT} */ açıkTckt) => new Response(JSON.stringify(açıkTckt), {
+      .then((data) => new Response(JSON.stringify({
+        "personInfo": signFor(
+          toPersonInfo(data["Temel-Bilgileri"]), commit, signerKey),
+        "contactInfo": signFor(
+          toContactInfo(data["Iletisim-Bilgileri"]), commit, signerKey),
+        "kütükBilgileri": signFor(
+          /** @type {KütükBilgileri} */(data["Kutuk-Bilgileri"]), commit, signerKey),
+        "adresBilgileri": signFor(
+          /** @type {TürkiyeAdresi} */(data["AdresBilgileri"]), commit, signerKey)
+      }), {
         headers: {
           'content-type': 'application/json;charset=utf-8',
           'access-control-allow-origin': '*'
