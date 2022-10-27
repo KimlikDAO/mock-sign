@@ -33,7 +33,7 @@ const toPersonInfo = (kişi) => /** @type {PersonInfo} */({
  * @return {ContactInfo}
  */
 const toContactInfo = (iletişim) => /** @type {ContactInfo} */({
-  email: iletişim.email,
+  email: iletişim.eposta,
   phone: iletişim.telefon,
 })
 
