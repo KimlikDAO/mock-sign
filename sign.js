@@ -38,6 +38,15 @@ const toContactInfo = (iletişim) => /** @type {ContactInfo} */({
 })
 
 /**
+ * @param {TürkiyeAdresi} trAdresi
+ * @return {AddressInfo}
+ */
+const fromTürkiyeAdresi = (trAdresi) => {
+  trAdresi.country = "Türkiye";
+  return trAdresi;
+}
+
+/**
  * @param {InfoSection} data
  * @param {string} commit base64 encded cryptographic EVM address commitment.
  * @param {string} signerKey
@@ -86,8 +95,8 @@ export default {
           toContactInfo(data["Iletisim-Bilgileri"]), commit, signerKey),
         "kütükBilgileri": signFor(
           /** @type {KütükBilgileri} */(data["Kutuk-Bilgileri"]), commit, signerKey),
-        "adresBilgileri": signFor(
-          /** @type {TürkiyeAdresi} */(data["Adres-Bilgileri"]), commit, signerKey)
+        "addressInfo": signFor(
+          fromTürkiyeAdresi(data["Adres-Bilgileri"]), commit, signerKey)
       }), {
         headers: {
           'content-type': 'application/json;charset=utf-8',
