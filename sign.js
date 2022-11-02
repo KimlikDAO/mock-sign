@@ -34,7 +34,7 @@ const toPersonInfo = (kişi) => /** @type {PersonInfo} */({
  */
 const toContactInfo = (iletişim) => /** @type {ContactInfo} */({
   email: iletişim.eposta,
-  phone: iletişim.telefon,
+  phone: iletişim.telefon.replace(/[^0-9+]/gi, ''),
 })
 
 /**
