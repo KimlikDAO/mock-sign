@@ -1,18 +1,21 @@
+/** @const {string} */
 const TOKEN_SERVER_URL = "https://mock-oauth2.kimlikdao.net/token";
+/** @const {string} */
 const BILGI_SERVER_URL = "https://mock-oauth2.kimlikdao.net/bilgi";
+/** @const {string} */
 const CLIENT_ID = 'F5CAA82F-E2CF-4F21-A745-471ABE3CE7F8';
+/** @const {string} */
 const CLIENT_SECRET = 'B97B789F-9D0F-48AF-AD09-0721979D0E9F';
 
 /**
  * @param {string} message
  * @param {number} code
+ * @return {Response}
  */
-const err = (message, code) => {
-  return new Response('{hata:"' + message + '"}', {
-    status: code,
-    headers: { 'content-type': 'application/json' }
-  })
-}
+const err = (message, code) => new Response('{hata:"' + message + '"}', {
+  status: code,
+  headers: { 'content-type': 'application/json' }
+})
 
 /**
  * @param {nvi.TemelBilgileri} kişi
@@ -56,7 +59,7 @@ const signFor = (data, commit, signerKey) => data
 
 export default {
   /**
-   * @param {CFWorkersRequest} request
+   * @param {Request} request
    * @return {Promise<Response>|Response}
    */
   fetch(request) {
@@ -68,7 +71,9 @@ export default {
     }
 
     const signerKey = "";
+    /** @const {string} */
     const oauth_code = url.searchParams.get('oauth_code') || "";
+    /** @const {string} */
     const commit = url.searchParams.get('taahhüt') || url.searchParams.get('taahhut') || "";
 
     /** @const {OAuthAccessTokenRequest} */

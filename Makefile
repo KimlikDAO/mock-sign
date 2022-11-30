@@ -1,4 +1,7 @@
-build/sign.js: sign.js lib/util/cfModuleWorker.js lib/tckt/TCKTBilgileri.js lib/api/edevletApi.js
+build/sign.js: sign.js \
+               lib/api/edevletApi.js \
+               lib/tckt/TCKTBilgileri.js \
+               lib/cloudflare/types.js lib/cloudflare/moduleWorker.js
 	mkdir -p build
 	yarn google-closure-compiler -W VERBOSE -O ADVANCED --charset UTF-8 \
                              --env BROWSER \

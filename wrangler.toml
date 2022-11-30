@@ -1,5 +1,5 @@
 account_id = "8f0c2f2271ff857947d9a5b2c38595a0"
-compatibility_date = "2022-04-14"
+compatibility_date = "2022-11-30"
 
 name = "mock-sign"
 main = "build/sign.js"
